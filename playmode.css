@@ -1,0 +1,27 @@
+body
+{
+    background: linear-gradient(90deg, rgba(168,237,234,1) 0%, rgba(254,214,227,1) 100%);
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.navbar-expand-lg
+{
+    background: #82A0D8;
+    display: block;
+}
+.nav-link
+{
+    color:white;
+    font-weight: bolder;
+    font-size: 18px;
+    margin-right: 25px;
+}
+.navbar-text
+{
+    color: white;
+    font-weight: bolder;
+    font-size: 30px;
+}
+
+
