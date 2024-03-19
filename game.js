@@ -30,7 +30,7 @@ function makeRandomMove () {
     // audio.play()
   } else
   {
-    var audio = new Audio('sound/move-opponent.mp3')
+    var audio = new Audio('public/sound/move-opponent.mp3')
     audio.play()
   }
   
@@ -45,7 +45,8 @@ function onDrop (source, target) {
     to: target,
     promotion: 'q' // NOTE: always promote to a queen for example simplicity
   })
-    
+  var audio = new Audio('public/sound/move-self.mp3')
+  audio.play()
   }
   catch(err)
   {
@@ -57,7 +58,7 @@ function onDrop (source, target) {
   // illegal move
   // if (move === null) 
 
-  // updateStatus()
+  updateStatus()
 }
 
 // update the board position after the piece snap
@@ -76,8 +77,8 @@ function updateStatus () {
   
   // checkmate?
   if (game.isCheckmate()) {
-    var audio = new Audio('sound/move-check.mp3')
-    var audio1 = new Audio('sound/game-end.mp3')
+    var audio = new Audio('public/sound/move-check.mp3')
+    var audio1 = new Audio('public/sound/game-end.mp3')
     audio.play()
     setTimeout(()=>{
       audio1.play();
@@ -87,7 +88,7 @@ function updateStatus () {
 
   // draw?
   else if (game.isDraw()) {
-    var audio = new Audio('sound/game-end.mp3')
+    var audio = new Audio('public/sound/game-end.mp3')
     audio.play()
     status = 'Game over, drawn position'
   }
@@ -98,7 +99,7 @@ function updateStatus () {
 
     // check?
     if (game.isCheck()) {
-      var audio = new Audio('sound/move-check.mp3')
+      var audio = new Audio('public/sound/move-check.mp3')
       audio.play()
       status += ', ' + moveColor + ' is in check'
     }
