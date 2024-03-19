@@ -4,24 +4,30 @@ body
     overflow-x: hidden;
     overflow-y: auto;
 }
-
 .navbar-expand-lg
 {
     background: #82A0D8;
     display: block;
+    padding:0;
+}
+.Logo
+{
+    width:90px;
 }
 .nav-link
 {
     color:white;
     font-weight: bolder;
-    font-size: 18px;
-    margin-right: 25px;
+    font-size: 20px;
+    margin-right: 30px;;
+}
+@keyframes textScale {
+    0% { font-size: 16px; }
+    100% { font-size: 20px; }
 }
 .navbar-text
 {
     color: white;
     font-weight: bolder;
-    font-size: 30px;
+    font-size: 40px;
 }
-
-

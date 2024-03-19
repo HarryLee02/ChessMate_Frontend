@@ -41,8 +41,10 @@
     <!--Header body-->
     <header class="navbar navbar-expand-lg tertiary">
         <div class="container-fluid custom-container">
+            <img src="./public/logo.png" class="Logo" alt="Logo">
             <div class="navbar-brand">
-                <span class="navbar-text fas fa-chess" id="brand-text"></span>
+                <span class="navbar-text" id="brand-text">
+                </span>
             </div>
             <div class="d-flex justify-content-end align-items-center flex-grow-1">
                 <ul class="navbar-nav">
@@ -68,18 +70,25 @@
                         >
                         Login
                 </button>
+
             </div>
         </div>
     </header>
 
     <body class="Container1">
         <br>
-        <div id="myBoard" style="width: 400px;"></div>
+        <div id="myBoard" style="width: 400px; margin: 0 auto;"></div>
         <!-- <button id="startPosition">Start Position</button>
         <button id="clearBoard">Clear Board</button>
         <button id="flip">Flip Board</button>
-        <button id="Restart">Restart</button>
-        <button id="setRuyLopezBtn">Ruy Lopez</button> -->
+        <button id="Restart">Restart</button> -->
+        <label>Status:</label>
+        <div id="status"></div>
+        <label>FEN:</label>
+        <div id="fen"></div>
+        <label>PGN:</label>
+        <div id="pgn"></div>
+        <button id="setRuyLopezBtn">Ruy Lopez</button> 
         <button id="changeTheme">changeTheme</button>
     </body>
 
