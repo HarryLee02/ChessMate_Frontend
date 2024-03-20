@@ -4,6 +4,10 @@ body
     overflow-x: hidden;
     overflow-y: auto;
 }
+label
+{
+    margin: 0 auto;
+}
 .navbar-expand-lg
 {
     background: #82A0D8;

@@ -121,31 +121,32 @@ board = Chessboard('myBoard', config)
 
 updateStatus()
 
-$('#setRuyLopezBtn').on('click', function () {
-  var config = {
-    draggable: true,
-    position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R',
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onSnapEnd: onSnapEnd
-  }
-  board = Chessboard('myBoard', config)
-  game.load('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq d6 0 2')
-})
+// $('#setRuyLopezBtn').on('click', function () {
+//   var config = {
+//     draggable: true,
+//     position: 'r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R',
+//     onDragStart: onDragStart,
+//     onDrop: onDrop,
+//     onSnapEnd: onSnapEnd
+//   }
+//   board = Chessboard('myBoard', config)
+//   game.load('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq d6 0 2')
+// })
 
 
 
 $('#changeTheme').on('click', function () {
+  var randomNumber = Math.floor(Math.random()*8);
+  var randomTheme = theme_array[randomNumber%8];
   var config = {
-    pieceTheme:leipzig_piece_theme,
-    boardTheme:leipzig_board_theme,
+    pieceTheme: randomTheme,
     draggable: true,
-    position: 'start',
+    position: game.fen(),
     onDragStart: onDragStart,
     onDrop: onDrop,
     onSnapEnd: onSnapEnd
   }
   board = Chessboard('myBoard', config)
-  game = new Chess()
+  game.load(game.fen())
   // game.load('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq d6 0 2')
 })
