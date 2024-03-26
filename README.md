@@ -4,6 +4,13 @@ More than just playing **Chess**, the developing features are worth waiting for 
 Login forms are expected to be done soon, using `Firebase`, a NOSQL database (perhaps?).
 <hr>
 
+![img1](/public/image.png)
+<br>
+
+![img2](/public/image2.png)
+
+<hr>
+
 Here is the [Live demo](https://harrylee02.github.io/ChessMate_Frontend/).\
 What `/play` looks like:
 ![demo pic](/public/demo.png)
