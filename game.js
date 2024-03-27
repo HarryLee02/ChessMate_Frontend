@@ -110,7 +110,11 @@ function updateStatus () {
   $pgn.html(game.pgn())
 }
 
+
+var current_piece_theme = 'wikipedia_piece_theme'
+
 var config = {
+  pieceTheme: current_piece_theme,
   draggable: true,
   position: 'start',
   onDragStart: onDragStart,
@@ -146,7 +150,22 @@ $('#changeTheme').on('click', function () {
     onDrop: onDrop,
     onSnapEnd: onSnapEnd
   }
+  current_piece_theme = randomTheme
   board = Chessboard('myBoard', config)
   game.load(game.fen())
   // game.load('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq d6 0 2')
 })
+$('#restart').on('click', function () {
+  var config = {
+    pieceTheme: current_piece_theme,
+    draggable: true,
+    position: 'start',
+    onDragStart: onDragStart,
+    onDrop: onDrop,
+    onSnapEnd: onSnapEnd
+  }
+  board = Chessboard('myBoard', config)
+  game.reset()
+  
+}
+)
