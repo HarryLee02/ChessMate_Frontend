@@ -111,10 +111,9 @@ function updateStatus () {
 }
 
 
-var current_piece_theme = 'wikipedia_piece_theme'
+var current_piece_theme
 
 var config = {
-  pieceTheme: current_piece_theme,
   draggable: true,
   position: 'start',
   onDragStart: onDragStart,
