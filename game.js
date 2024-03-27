@@ -81,8 +81,8 @@ function updateStatus () {
     var audio1 = new Audio('public/sound/game-end.mp3')
     audio.play()
     setTimeout(()=>{
-      audio1.play();
-    },1000);
+      audio1.play()
+    },700);
     status = 'Game over, ' + moveColor + ' is in checkmate.'
   }
 
