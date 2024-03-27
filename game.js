@@ -166,6 +166,6 @@ $('#restart').on('click', function () {
   }
   board = Chessboard('myBoard', config)
   game.reset()
-  
+  updateStatus()
 }
 )
