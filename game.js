@@ -2,10 +2,9 @@ import {Chess} from './js/chess.js'
 
 var board = null
 var game = new Chess()
-var $status = $('#status')
-var $fen = $('#fen')
-var $pgn = $('#pgn')
-
+// var $status = $('#status')
+// var $fen = $('#fen')
+// var $pgn = $('#pgn')
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
   if (game.isGameOver()) return false
@@ -24,16 +23,9 @@ function makeRandomMove () {
 
   var randomIdx = Math.floor(Math.random() * possibleMoves.length)
   game.move(possibleMoves[randomIdx])
-  if ((possibleMoves[randomIdx]).includes("x"))
-  {
-    // var audio = new Audio('sound/move-check.mp3')
-    // audio.play()
-  } else
-  {
-    var audio = new Audio('public/sound/move-opponent.mp3')
-    audio.play()
-  }
-  
+  var audio = new Audio('public/sound/move-opponent.mp3')
+  audio.play()
+  $('#pgn').val(game.pgn())
   board.position(game.fen())
 }
 
@@ -52,12 +44,7 @@ function onDrop (source, target) {
   {
       return 'snapback'
   }
-  window.setTimeout(makeRandomMove, 700)
-  
-
-  // illegal move
-  // if (move === null) 
-
+  window.setTimeout(makeRandomMove, 1000)
   updateStatus()
 }
 
@@ -69,7 +56,6 @@ function onSnapEnd () {
 
 function updateStatus () {
   var status = ''
-
   var moveColor = 'White'
   if (game.turn() === 'b') {
     moveColor = 'Black'
@@ -84,6 +70,7 @@ function updateStatus () {
       audio1.play()
     },700);
     status = 'Game over, ' + moveColor + ' is in checkmate.'
+    alert(status)
   }
 
   // draw?
@@ -104,10 +91,7 @@ function updateStatus () {
       status += ', ' + moveColor + ' is in check'
     }
   }
-
-  $status.html(status)
-  $fen.html(game.fen())
-  $pgn.html(game.pgn())
+  $('#pgn').val(game.pgn())
 }
 
 
