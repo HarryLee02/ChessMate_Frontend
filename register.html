@@ -27,7 +27,8 @@
                             </div>                            
                             <div class="input-box">
                                 <span class="details">Phone Number</span>
-                                <input type="text" name="phone_number"  placeholder="Enter your Phone Number" required> 
+                                <input type="text" name="phone_number"  placeholder="Enter your Phone Number" pattern="^(032|033|034|035|036|037|038|039|096|097|098|086|083|084|085|081|082|088|091|094|070|079|077|076|078|090|093|089|056|058|092|059|099)[0-9]{7}$"
+                                title="Vietnamese phone number only" required> 
                             </div>
                             <div class="input-box">
                                 <span class="details">Email</span>
@@ -39,7 +40,8 @@
                             </div>
                             <div class="input-box">
                                 <span class="details">Password</span>
-                                <input type="password" name="password" placeholder="Enter your password" required> 
+                                <input type="password" name="password" placeholder="Enter your password" pattern="^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$" 
+                                title="At least eight characters, one letter, one number and one special character" required> 
                             </div>
                             <div class="input-box">
                                 <span class="details">Confirm password</span>
@@ -74,7 +76,7 @@
                             <label for="fillings" style="font-style: italic;padding-top: 15px; font-size:20px;">Are you sure with theses fillings?</label>
                         </div>
                         <div class="button">
-                            <input type="submit" value="Register">
+                            <input type="submit" value="Register" name="register">
                         </div>
                     </form>
                 </div>
