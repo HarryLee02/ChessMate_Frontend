@@ -16,19 +16,6 @@ function onDragStart (source, piece, position, orientation) {
     return false
   }
 }
-function makeRandomMove () {
-  var possibleMoves = game.moves()
-
-  // game over
-  if (possibleMoves.length === 0) return
-
-  var randomIdx = Math.floor(Math.random() * possibleMoves.length)
-  game.move(possibleMoves[randomIdx])
-  board.position(game.fen())
-  var audio = new Audio('./public/sound/move-opponent.mp3')
-  audio.play()
-  updateStatus()
-}
 
 function onDrop (source, target) {
   // see if the move is legal
@@ -45,7 +32,7 @@ function onDrop (source, target) {
   {
     return 'snapback'
   }
-  window.setTimeout(makeRandomMove, 700)
+  
   
 
   // illegal move
@@ -98,15 +85,14 @@ function updateStatus () {
     }
   }
 
-  $status.html(status)
+  console.log($status)
   $fen.html(game.fen())
-  // pgn = pgn.split(/\s(?=[^\d\.\s]*\d\.)/);
-  // pgn = pgn.join('\n')
+  
   $pgn.html(game.pgn())
 }
 
 
-var current_piece_theme
+// var current_piece_theme
 
 var config = {
   draggable: true,
@@ -133,33 +119,33 @@ updateStatus()
 
 
 
-$('#changeTheme').on('click', function () {
-  var randomNumber = Math.floor(Math.random()*8);
-  var randomTheme = theme_array[randomNumber%8];
-  var config = {
-    pieceTheme: randomTheme,
-    draggable: true,
-    position: game.fen(),
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onSnapEnd: onSnapEnd
-  }
-  current_piece_theme = randomTheme
-  board = Chessboard('myBoard', config)
-  game.load(game.fen())
-  // game.load('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq d6 0 2')
-})
-$('#restart').on('click', function () {
-  var config = {
-    pieceTheme: current_piece_theme,
-    draggable: true,
-    position: 'start',
-    onDragStart: onDragStart,
-    onDrop: onDrop,
-    onSnapEnd: onSnapEnd
-  }
-  board = Chessboard('myBoard', config)
-  game.reset()
-  updateStatus()
-}
-)
+// $('#changeTheme').on('click', function () {
+//   var randomNumber = Math.floor(Math.random()*8);
+//   var randomTheme = theme_array[randomNumber%8];
+//   var config = {
+//     pieceTheme: randomTheme,
+//     draggable: true,
+//     position: game.fen(),
+//     onDragStart: onDragStart,
+//     onDrop: onDrop,
+//     onSnapEnd: onSnapEnd
+//   }
+//   current_piece_theme = randomTheme
+//   board = Chessboard('myBoard', config)
+//   game.load(game.fen())
+//   // game.load('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq d6 0 2')
+// })
+// $('#restart').on('click', function () {
+//   var config = {
+//     pieceTheme: current_piece_theme,
+//     draggable: true,
+//     position: 'start',
+//     onDragStart: onDragStart,
+//     onDrop: onDrop,
+//     onSnapEnd: onSnapEnd
+//   }
+//   board = Chessboard('myBoard', config)
+//   game.reset()
+//   updateStatus()
+// }
+// )
