@@ -61,9 +61,9 @@
                 <div class="select-wrapper">
                 <select class="select">
                     <option value="" selected="selected">Fix a problem</option>
-                    <option value="">Problem 1</option>
-                    <option value="">Problem 2</option>
-                    <option value="">Problem 3</option>
+                    <option value="problem1">Problem 1</option>
+                    <option value="problem2">Problem 2</option>
+                    <option value="problem3">Problem 3</option>
                 </select>
                 <span class="select-icon entypo-arrow-combo"></span>
                 </div>
@@ -71,9 +71,9 @@
                 <div class="select-wrapper">
                     <select class="select">
                     <option value="" selected="selected">Watch videos</option>
-                    <option value="">Problem 1</option>
-                    <option value="">Problem 2</option>
-                    <option value="">Problem 3</option>
+                    <option value="video1">Video 1</option>
+                    <option value="video2">Video 2</option>
+                    <option value="video3">Video 3</option>
                     </select>
                     <span class="select-icon entypo-arrow-combo"></span>
                 </div>
@@ -119,6 +119,9 @@
                 </div>
             </div>
         </div>
+    <!--Chatbot-->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger intent="WELCOME" chat-title="Chess_ChatBot" agent-id="1a910bb4-c591-4a4f-a2fd-37370e1c63b7" language-code="en"></df-messenger>
 </body>
 <footer>
     <div class="form-container" onclick="blog()">
@@ -187,4 +190,16 @@
          }
      });
      });
+
+     // Hiện option lên search bar
+     document.addEventListener('DOMContentLoaded', function () {
+            const selectElements = document.querySelectorAll('.select');
+            selectElements.forEach(selectElement => {
+                selectElement.addEventListener('change', function () {
+                    const selectedOption = this.value;
+                    const searchInput = document.getElementById('searchQueryInput');
+                    searchInput.value = selectedOption; 
+                });
+            });
+        });
  </script>
