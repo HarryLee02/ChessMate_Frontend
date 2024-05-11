@@ -84,8 +84,8 @@ include('includes/navbar.php');
     };
 
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = app.database();
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
     // Post
     const form = document.querySelector('.post-form');
@@ -96,7 +96,6 @@ include('includes/navbar.php');
         e.preventDefault();
         const postContent = textarea.value.trim();
         if (postContent !== '') {
-            // Thêm post vào Firebase
             database.ref('posts').push({
                     content: postContent,
                     timestamp: firebase.database.ServerValue.TIMESTAMP // Thời gian đăng
@@ -112,8 +111,31 @@ include('includes/navbar.php');
     });
 
     // Lấy post từ Firebase
-    database.ref('posts').on('child_added', function(snapshot) {
-        const postData = snapshot.val();
+    const lastPostDisplayedTimestamp = 0; // Giữ track thời gian của bài post cuối cùng
+    const postsContainer = document.querySelector('.main-content');
+
+    // Load thêm post khi cuộn trang
+    function loadPostsOnScroll() {
+        const scrollPosition = window.scrollY + window.innerHeight;
+        const documentHeight = document.body.scrollHeight;
+        if (scrollPosition >= documentHeight) {
+            database.ref('posts')
+                .orderByChild('timestamp')
+                .startAt(lastPostDisplayedTimestamp + 1) // Bắt đầu từ thời gian của post cuối cùng + 1
+                .limitToFirst(5) // Số post tải thêm
+                .once('value', function(snapshot) {
+                    snapshot.forEach(function(childSnapshot) {
+                        const postData = childSnapshot.val();
+                        const post = createPostElement(postData);
+                        postsContainer.appendChild(post);
+                        lastPostDisplayedTimestamp = postData.timestamp; // Cập nhật thời gian của bài post cuối cùng
+                    });
+                });
+        }
+    }
+
+    // Create a post element
+    function createPostElement(postData) {
         const post = document.createElement('div');
         post.classList.add('post');
         post.setAttribute('data-timestamp', postData.timestamp);
@@ -121,7 +143,7 @@ include('includes/navbar.php');
         <img src="https://picsum.photos/100" alt="Profile Picture">
         <div class="post-header">
             <h2>Username</h2>
-            <p>Just now</p>
+            <p>${formatTimeAgo(postData.timestamp)}</p>
         </div>
         <p>${postData.content}</p>
         <div class="post-actions">
@@ -138,7 +160,45 @@ include('includes/navbar.php');
             </form>
         </div>
     `;
-        posts.insertBefore(post, posts.firstChild);
+        return post;
+    }
+
+    // Load các post ban đầu
+    document.addEventListener('DOMContentLoaded', function() {
+        loadPostsOnScroll();
+    });
+
+    // Load post khi cuộn trang
+    window.addEventListener('scroll', function() {
+        loadPostsOnScroll();
+    });
+
+    // Post bài mới và hiển thị lên đầu
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const postContent = textarea.value.trim();
+        if (postContent !== '') {
+            database.ref('posts').push({
+                    content: postContent,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                })
+                .then(function() {
+                    console.log("Posted successfully!");
+                    textarea.value = '';
+                    const newPostRef = database.ref('posts').orderByChild('timestamp').limitToLast(1);
+                    newPostRef.once('value', function(snapshot) {
+                        snapshot.forEach(function(childSnapshot) {
+                            const postData = childSnapshot.val();
+                            const post = createPostElement(postData);
+                            postsContainer.insertBefore(post, postsContainer.firstChild);
+                            lastPostDisplayedTimestamp = postData.timestamp; // Cập nhật thời gian của bài post cuối cùng
+                        });
+                    });
+                })
+                .catch(function(error) {
+                    console.error("Post Error", error);
+                });
+        }
     });
 
     // Interact
