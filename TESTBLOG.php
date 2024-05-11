@@ -1,13 +1,11 @@
 <?php
 session_start();
 include('includes/header.php');
+include('includes/navbar.php');
 ?>
 
 <head>
     <link href="TESTBLOG.css" rel="stylesheet">
-    <?php
-    include('includes/navbar.php');
-    ?>
 </head>
 
 <body>
@@ -15,7 +13,7 @@ include('includes/header.php');
         <div class="header-post">
             <h1>Social Platform</h1>
             <form class="post-form">
-                <textarea placeholder="Share your experience here ..."></textarea>
+                <textarea id="postContent" placeholder="Share your experience here ..."></textarea>
                 <button type="submit">Post</button>
             </form>
         </div>
@@ -23,6 +21,8 @@ include('includes/header.php');
     </div>
 </body>
 
+<script src="https://www.gstatic.com/firebasejs/9.6.3/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.3/firebase-database.js"></script>
 <script>
     // Srcipt Navbar
     // Brandtext
@@ -73,41 +73,72 @@ include('includes/header.php');
         });
     });
 
+    const firebaseConfig = {
+        apiKey: "",
+        authDomain: "",
+        databaseURL: "",
+        projectId: "",
+        storageBucket: "",
+        messagingSenderId: "",
+        appId: ""
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = app.database();
+
     // Post
     const form = document.querySelector('.post-form');
-    const textarea = document.querySelector('textarea');
+    const textarea = document.getElementById('postContent');
     const posts = document.querySelector('.main-content');
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
+        const postContent = textarea.value.trim();
+        if (postContent !== '') {
+            // Thêm post vào Firebase
+            database.ref('posts').push({
+                    content: postContent,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP // Thời gian đăng
+                })
+                .then(function() {
+                    console.log("Posted successfully!");
+                    textarea.value = '';
+                })
+                .catch(function(error) {
+                    console.error("Post Error", error);
+                });
+        }
+    });
+
+    // Lấy post từ Firebase
+    database.ref('posts').on('child_added', function(snapshot) {
+        const postData = snapshot.val();
         const post = document.createElement('div');
         post.classList.add('post');
-        post.setAttribute('data-timestamp', Date.now());
+        post.setAttribute('data-timestamp', postData.timestamp);
         post.innerHTML = `
-            <img src="https://picsum.photos/100" alt="Profile Picture">
-            <div class="post-header">
-                <h2>Username</h2>
-                <p>Just now</p>
-            </div>
-            <p>${textarea.value}</p>
-            <div class = "post-actions">
-                <button class="like-button">Like</button>
-                <button class="comment-button">Comment</button>
-            </div>
-            <div class="post-likes">
-                <p>0 likes</p>
-            </div>
-            <div class="post-comments">
-                <form class="comment-form">
-                    <textarea placeholder="Add a comment"></textarea>
-                    <button>Post</button>
-                </form>
-            </div>
-        `;
+        <img src="https://picsum.photos/100" alt="Profile Picture">
+        <div class="post-header">
+            <h2>Username</h2>
+            <p>Just now</p>
+        </div>
+        <p>${postData.content}</p>
+        <div class="post-actions">
+            <button class="like-button">Like</button>
+            <button class="comment-button">Comment</button>
+        </div>
+        <div class="post-likes">
+            <p>0 likes</p>
+        </div>
+        <div class="post-comments">
+            <form class="comment-form">
+                <textarea placeholder="Add a comment"></textarea>
+                <button>Post</button>
+            </form>
+        </div>
+    `;
         posts.insertBefore(post, posts.firstChild);
-        textarea.value = '';
-        const postComments = post.querySelector('.post-comments');
-        postComments.style.display = 'none';
     });
 
     // Interact
