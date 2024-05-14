@@ -12,12 +12,25 @@ ws.onmessage = (event) => {
   {
     messages_view.innerHTML += `
 <p><strong>${message.message}</strong></p>`;
-
+    const userId = document.getElementById("userId").value;
       document.getElementById("roomId").disabled = true;
     document.getElementById("userId").disabled = true;
     var button =  document.getElementById("joinRoomBtn") ;
     button.disabled = true; 
-
+    if(message.color === "white")
+      {
+        if (userId === message.userId)
+          { 
+            onDrop2("", "", 0, 1)
+          }
+      }
+    else if(message.color === "black")
+      {
+        if (userId === message.userId)
+          {
+            onDrop2("", "", 0, 2)
+          }
+      }
   } else 
   if (message.type === "chat") 
   {
@@ -42,14 +55,14 @@ ws.onmessage = (event) => {
         }
         else 
         {
-          onDrop2(message.from, message.to, 0);
+          onDrop2(message.from, message.to, 0, 0);
         }
       }else 
       if (message.type === "reset")
         {
           messages_view.innerHTML += `
           <p><strong>${message.message}</strong></p>`;
-          onDrop2("", "", 1);   
+          onDrop2("", "", 1, 0);   
         }
   messages_view.scrollTop = messages_view.scrollHeight;
 };

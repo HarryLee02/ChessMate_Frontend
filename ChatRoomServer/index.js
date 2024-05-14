@@ -88,11 +88,25 @@ const joinRoom = (ws, roomId, userId) => {
 
     return;
   }
+  else if (rooms.get(roomId).length == 1)
+  {
+    rooms.get(roomId).push(ws);
+    users.get(roomId).push(userId);
+    broadcastToRoom(roomId, {
+    type: "info",
+    color: "black",
+    userId,
+    message: "User "+ userId + " added successfully",
+    });
+    return;
+  }
   // rooms.get(roomId).add(ws);
   rooms.get(roomId).push(ws);
   users.get(roomId).push(userId);
   broadcastToRoom(roomId, {
     type: "info",
+    color: "white",
+    userId,
     message: "User "+ userId + " added successfully",
   });
 };

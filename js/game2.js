@@ -43,51 +43,78 @@ function oppositePosition(position)
 
   return oppositePosition;
 }
-export function onDrop2 (source, target, check) {
+export function onDrop2 (source, target, check, color) {
   // see if the move is legal
-  if(check === 0)
+  if(color === 0)
   {
-  if(isFirst === 0)
+    if(check === 0)
     {
-      game._turn = BLACK
-      isFirst = 2
+    /*if(isFirst === 0)
+      {
+        game._turn = BLACK
+        isFirst = 2
+      }*/
+    console.log("da vo ham ondrop2");
+    try{
+      var move = game.move({
+      //from: oppositePosition(source),
+      from:source,
+      to:target,
+      //to: oppositePosition(target),
+      promotion: 'q' // NOTE: always promote to a queen for example simplicity
+    })
+      board.position(game.fen())
+      var audio = new Audio('./public/sound/move-self.mp3')
+      audio.play()
     }
-  console.log("da vo ham ondrop2");
-  try{
-    var move = game.move({
-    from: oppositePosition(source),
-    // from:source,
-    // to:target,
-    to: oppositePosition(target),
-    promotion: 'q' // NOTE: always promote to a queen for example simplicity
-  })
-    board.position(game.fen())
-    var audio = new Audio('./public/sound/move-self.mp3')
-    audio.play()
-  }
-  catch(err)
-  {
-    return 'snapback'
-  }
-  //window.setTimeout(makeRandomMove, 700)
-  }
-  else if (check === 1)
+    catch(err)
     {
-      var config = {
-        pieceTheme: current_piece_theme,
-        draggable: true,
-        position: 'start',
-        onDragStart: onDragStart,
-        onDrop: onDrop,
-        onSnapEnd: onSnapEnd
+      return 'snapback'
+    }
+    //window.setTimeout(makeRandomMove, 700)
+    }
+    else if (check === 1)
+      {
+        var config = {
+          pieceTheme: current_piece_theme,
+          draggable: true,
+          position: 'start',
+          onDragStart: onDragStart,
+          onDrop: onDrop,
+          onSnapEnd: onSnapEnd
+        }
+        board = Chessboard('myBoard', config)
+        game.reset()
       }
-      board = Chessboard('myBoard', config)
-      game.reset()
-    }
-
+  }
   // illegal move
   // if (move === null) 
-
+  else if(color === 1)
+  {
+    var config = {
+      draggable: true,
+      position: 'start',
+      orientation: 'white',
+      onDragStart: onDragStart,
+      onDrop: onDrop,
+      onSnapEnd: onSnapEnd
+    }
+    board = Chessboard('myBoard', config)
+    
+  }
+  else if(color === 2)
+  {
+    var config = {
+      draggable: true,
+      position: 'start',
+      orientation: 'black',
+      onDragStart: onDragStart,
+      onDrop: onDrop,
+      onSnapEnd: onSnapEnd
+    }
+    board = Chessboard('myBoard', config)
+    
+  }
   updateStatus()
 }
 
@@ -174,16 +201,7 @@ function updateStatus () {
 
 var current_piece_theme
 
-var config = {
-  draggable: true,
-  position: 'start',
-  onDragStart: onDragStart,
-  onDrop: onDrop,
-  onSnapEnd: onSnapEnd
-}
-board = Chessboard('myBoard', config)
 
-updateStatus()
 
 // $('#setRuyLopezBtn').on('click', function () {
 //   var config = {
