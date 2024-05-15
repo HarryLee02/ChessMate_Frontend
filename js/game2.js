@@ -17,6 +17,24 @@ function onDragStart (source, piece, position, orientation) {
     return false
   }
 }
+function onDragStartWhite (source, piece, position, orientation) {
+  // do not pick up pieces if the game is over
+  if (game.isGameOver()) return false
+
+  // only pick up pieces for the side to move
+  if (( piece.search(/^b/) !== -1)) {
+    return false
+  }
+}
+function onDragStartBlack (source, piece, position, orientation) {
+  // do not pick up pieces if the game is over
+  if (game.isGameOver()) return false
+
+  // only pick up pieces for the side to move
+  if ((piece.search(/^w/) !== -1)) {
+    return false
+  }
+}
 function makeRandomMove () {
   var possibleMoves = game.moves()
 
@@ -79,7 +97,7 @@ export function onDrop2 (source, target, check, color) {
           pieceTheme: current_piece_theme,
           draggable: true,
           position: 'start',
-          onDragStart: onDragStart,
+          onDragStart: onDragStartWhite,
           onDrop: onDrop,
           onSnapEnd: onSnapEnd
         }
@@ -95,7 +113,7 @@ export function onDrop2 (source, target, check, color) {
       draggable: true,
       position: 'start',
       orientation: 'white',
-      onDragStart: onDragStart,
+      onDragStart: onDragStartWhite,
       onDrop: onDrop,
       onSnapEnd: onSnapEnd
     }
@@ -108,7 +126,7 @@ export function onDrop2 (source, target, check, color) {
       draggable: true,
       position: 'start',
       orientation: 'black',
-      onDragStart: onDragStart,
+      onDragStart: onDragStartBlack,
       onDrop: onDrop,
       onSnapEnd: onSnapEnd
     }
