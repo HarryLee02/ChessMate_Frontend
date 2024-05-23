@@ -1,5 +1,5 @@
 import { onDrop2 } from '../js/game2.js';
-
+import { restartgame } from '../js/game2.js';
 const ws = new WebSocket("ws://localhost:6789");
 
 ws.onopen = () => {
@@ -63,7 +63,42 @@ ws.onmessage = (event) => {
           messages_view.innerHTML += `
           <p><strong>${message.message}</strong></p>`;
           onDrop2("", "", 1, 0);   
+        }else
+        if(message.type === "endgame")
+        {
+          const userId = document.getElementById("userId").value;
+          if(message.endgame === 1)
+          {
+            if (userId === message.userId)
+            {
+              messages_view.innerHTML += `
+            <p><strong>You lose</strong></p>`;
+            }
+
+            else 
+            {
+              messages_view.innerHTML += `
+              <p><strong>Your opponent surrendered. You win</strong></p>`;
+              restartgame();
+            }
+          }
+          else if(message.endgame === 2)
+            {
+              if (userId === message.userId)
+                {
+                  messages_view.innerHTML += `
+                <p><strong>Time out. You lose</strong></p>`;
+                }
+    
+                else 
+                {
+                  messages_view.innerHTML += `
+                  <p><strong>Your opponent time out. You win</strong></p>`;
+                  restartgame();
+                }
+            }
         }
+        
   messages_view.scrollTop = messages_view.scrollHeight;
 };
 ws.onclose = () => {
@@ -80,6 +115,18 @@ export function sendCoord(from, to) {
       userId,
       from,
       to
+    }));
+  }
+};
+export function ggwp(endgame){
+  const roomId = document.getElementById("roomId").value;
+  const userId = document.getElementById("userId").value;
+  if (message && roomId && userId) {
+    ws.send(JSON.stringify({
+      type: "endgame",
+      roomId,
+      userId,
+      endgame
     }));
   }
 };

@@ -55,7 +55,7 @@ const handleMessage = (ws, data) => {
         joinRoom(ws, message.roomId, message.userId);
       } else if (message.type === "leave_room") {
         leaveRoom(ws, message.roomId);
-      } else if (message.type === "chat" || message.type === "game") {
+      } else if (message.type === "chat" || message.type === "game" || message.type === "endgame") {
         sendMessage(message.roomId, message);
       }
     }

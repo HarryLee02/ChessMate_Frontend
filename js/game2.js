@@ -1,12 +1,20 @@
 import {BLACK, Chess} from './chess.js'
 import { sendCoord } from '../ChatRoomServer/chat.js';
-
+import { ggwp } from '../ChatRoomServer/chat.js';
 var board = null
 var game = new Chess()
 var $status = $('#status')
 var $fen = $('#fen')
 var $pgn = $('#pgn')
 var isFirst = 0;
+let countdown1;
+let time1 = 600;
+let isRunning1 = false;
+const timerElement1 = document.getElementById('timer1')
+let countdown2;
+let time2 = 600;
+let isRunning2 = false;
+const timerElement2 = document.getElementById('timer2')
 function onDragStart (source, piece, position, orientation) {
   // do not pick up pieces if the game is over
   if (game.isGameOver()) return false
@@ -73,6 +81,10 @@ export function onDrop2 (source, target, check, color) {
         isFirst = 2
       }*/
     console.log("da vo ham ondrop2");
+    clearInterval(countdown1);
+    isRunning1 = false;
+    startCountdown2();
+        isRunning2 = true;
     try{
       var move = game.move({
       //from: oppositePosition(source),
@@ -93,6 +105,12 @@ export function onDrop2 (source, target, check, color) {
     }
     else if (check === 1)
       {
+        clearInterval(countdown2);
+        isRunning2 = false;
+        clearInterval(countdown1);
+        isRunning1 = false;
+        timerElement1.innerHTML = `10:00`;
+        timerElement2.innerHTML = `10:00`;   
         var config = {
           pieceTheme: current_piece_theme,
           draggable: true,
@@ -157,8 +175,10 @@ function onDrop (source, target) {
   }
   sendCoord(source, target)
   //window.setTimeout(makeRandomMove, 700)
-  
-
+    clearInterval(countdown2);
+    isRunning2 = false;
+    startCountdown1();
+        isRunning1 = true;
   // illegal move
   // if (move === null) 
 
@@ -188,6 +208,16 @@ function updateStatus () {
       audio1.play()
     },700);
     status = 'Game over, ' + moveColor + ' is in checkmate.'
+    var config = {
+      pieceTheme: current_piece_theme,
+      draggable: true,
+      position: 'start',
+      onDragStart: onDragStart,
+      onDrop: onDrop,
+      onSnapEnd: onSnapEnd
+    }
+    board = Chessboard('myBoard', config)
+    game.reset()
   }
 
   // draw?
@@ -215,10 +245,77 @@ function updateStatus () {
   // pgn = pgn.join('\n')
   $pgn.html(game.pgn())
 }
-
-
+export function restartgame(){
+  clearInterval(countdown2);
+    isRunning2 = false;
+    clearInterval(countdown1);
+        isRunning1 = false;
+        timerElement1.innerHTML = `10:00`;
+        timerElement2.innerHTML = `10:00`;   
+  var config = {
+    pieceTheme: current_piece_theme,
+    draggable: true,
+      position: 'start',
+      orientation: 'black',
+      onDragStart: onDragStartBlack,
+      onDrop: onDrop,
+      onSnapEnd: onSnapEnd
+  }
+  board = Chessboard('myBoard', config)
+  game.reset()
+  updateStatus()
+}
+function startCountdown1() {
+  countdown1 = setInterval(() => {
+      time1--;
+      let second = time1 % 60;
+      let min = Math.floor(time1/60);
+      timerElement1.innerHTML = `${min}:${second}`;
+      }, 1000);
+      if (time2 === 0) {
+        clearInterval(countdown1);
+            isRunning1 = false;
+      }
+}
+function startCountdown2() {
+  countdown2 = setInterval(() => {
+      time2--;
+      let second = time2 % 60;
+      let min = Math.floor(time2/60);
+      timerElement2.innerHTML = `${min}:${second}`;
+      if (time2 === 0) {
+          ggwp(2)
+          clearInterval(countdown2);
+          isRunning2 = false;
+          clearInterval(countdown1);
+          isRunning1 = false;
+          timerElement1.innerHTML = `10:00`;
+          timerElement2.innerHTML = `10:00`;   
+          var config = {
+          pieceTheme: current_piece_theme,
+          draggable: true,
+          position: 'start',
+          orientation: 'white',
+          onDragStart: onDragStartWhite,
+          onDrop: onDrop,
+          onSnapEnd: onSnapEnd
+          }
+          board = Chessboard('myBoard', config)
+          game.reset()
+          updateStatus()
+      }
+  }, 1000);
+}
 var current_piece_theme
-
+var config = {
+  pieceTheme: current_piece_theme,
+  draggable: true,
+  position: 'start',
+  onDragStart: onDragStart,
+  onDrop: onDrop,
+  onSnapEnd: onSnapEnd
+}
+board = Chessboard('myBoard', config)
 
 
 // $('#setRuyLopezBtn').on('click', function () {
@@ -232,7 +329,6 @@ var current_piece_theme
 //   board = Chessboard('myBoard', config)
 //   game.load('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq d6 0 2')
 // })
-
 
 
 $('#changeTheme').on('click', function () {
@@ -252,11 +348,19 @@ $('#changeTheme').on('click', function () {
   // game.load('r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq d6 0 2')
 })
 $('#restart').on('click', function () {
+  ggwp(1)
+  clearInterval(countdown2);
+    isRunning2 = false;
+    clearInterval(countdown1);
+        isRunning1 = false;
+        timerElement1.innerHTML = `10:00`;
+        timerElement2.innerHTML = `10:00`;   
   var config = {
     pieceTheme: current_piece_theme,
     draggable: true,
     position: 'start',
-    onDragStart: onDragStart,
+    orientation: 'white',
+    onDragStart: onDragStartWhite,
     onDrop: onDrop,
     onSnapEnd: onSnapEnd
   }
