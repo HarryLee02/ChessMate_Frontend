@@ -276,7 +276,7 @@ nav{
     }
 }
   
-@media screen and (max-width:1000px){
+@media only screen and (max-width: 400px) and (orientation: portrait){
     .hamburger{
         display: block;
         position: absolute;
@@ -313,5 +313,55 @@ nav{
         margin-left: 0vw;
         font-size:1rem;
         cursor: pointer;
+    }
+    .nav-move {
+        position: relative;
+        margin: 50px auto 0;
+        width: 24rem;
+        height: 50px;
+        background: #F5DEDB;
+        border-radius: 8px;
+        font-size: 0;
+        box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1);
+    }
+    .nav-move a {
+        font-size: 10px;
+    }
+    .nav-move a:nth-child(1){
+        width: 60px;
+    }
+    .nav-move .start-home, a:nth-child(1):hover~.animation{
+        width: 60px;
+        left: 0;
+    }
+    .nav-move a:nth-child(2){
+        width: 80px;
+    }
+    .nav-move a:nth-child(2):hover~.animation{
+        width: 80px;
+        left: 60px;
+    }
+    .nav-move a:nth-child(3){
+        width: 90px;
+        padding-left:10px;
+    }
+    .nav-move a:nth-child(3):hover~.animation{
+        width: 80px;
+        left: 150px;
+    }
+    .nav-move a:nth-child(4){
+        width: 70px;
+    }
+    .nav-move a:nth-child(4):hover~.animation{
+        width: 70px;
+        left: 230px;
+    }
+    .nav-move a:nth-child(5){
+        width:80px;
+    }
+    .nav-move a:nth-child(5):hover~.animation{
+      
+        width:80px;
+        left: 305px;
     }
 }

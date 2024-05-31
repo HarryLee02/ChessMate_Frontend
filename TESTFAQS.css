@@ -270,7 +270,7 @@ footer
     color: #777;
     margin-top: 10px;
 }
-@media screen and (max-width:1000px){
+@media only screen and (max-width: 400px) and (orientation: portrait){
     .hamburger{
         display: block;
         position: absolute;

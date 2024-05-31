@@ -214,7 +214,7 @@ nav{
     color:#fff;
     padding:5px 10px;
 }
-@media screen and (max-width:1000px){
+@media only screen and (max-width: 400px) and (orientation: portrait){
     .hamburger{
         display: block;
         position: absolute;
@@ -251,5 +251,26 @@ nav{
         margin-left: 0vw;
         font-size:1rem;
         cursor: pointer;
+    }
+    .header-post h1 {
+        font-size: 30px!important;
+        padding-bottom: 40px;
+        width: 22rem!important;
+    }
+    .post img {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        float: left;
+        margin-left: -10px;
+    }
+    .post-form textarea {
+        height: 100px!important;
+        width: 80%;
+        padding: 10px;
+        font-size: 12px!important;
+        border: 1px solid #ddd;
+        margin-right: 10px;
+        font-family: monospace;
     }
 }
