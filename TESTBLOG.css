@@ -214,7 +214,7 @@ nav{
     color:#fff;
     padding:5px 10px;
 }
-@media only screen and (max-width: 400px) and (orientation: portrait){
+@media only screen and (max-width: 480px) and (orientation: portrait){
     .hamburger{
         display: block;
         position: absolute;
@@ -223,6 +223,7 @@ nav{
         right: 30px;
         font-size: 2rem;
         cursor: pointer;
+        z-index: 10;
     }
     .nav-link.show 
     {

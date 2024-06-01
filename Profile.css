@@ -496,7 +496,7 @@ body {
   .timeline_about .basic_info ul li span {
     font-size: var(--m-fs);
   }
-  @media only screen and (max-width: 400px) and (orientation: portrait){
+  @media only screen and (max-width: 480px) and (orientation: portrait){
     *
     {
         margin: 0;

@@ -124,12 +124,13 @@
      });
 
      window.addEventListener('resize', function () {
-         if (window.innerWidth > 1000) {
+         if (window.innerWidth > 480) {
              navItems.forEach(item => item.style.display = 'block');
              loginBtn.style.display = 'block';
          } else {
              navItems.forEach(item => item.style.display = 'none');
              loginBtn.style.display = 'none';
+             location.reload();
          }
      });
      });

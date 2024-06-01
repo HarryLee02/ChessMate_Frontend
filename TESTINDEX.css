@@ -155,7 +155,7 @@ footer
     width: 100%; 
 }
 /* Mobile */
-@media only screen and (max-width: 400px) and (orientation: portrait){
+@media only screen and (max-width: 480px) and (orientation: portrait){
     .hamburger{
         display: block;
         position: absolute;
@@ -165,6 +165,8 @@ footer
         font-size: 2rem;
         cursor: pointer;
         padding-top:1rem;
+        z-index: 10;
+
     }
     .nav-link.show 
     {

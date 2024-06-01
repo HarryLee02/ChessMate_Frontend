@@ -163,7 +163,7 @@ form .button input:hover
 {
     background:  linear-gradient(90deg, rgba(168,237,234,1) 0%, rgba(254,214,227,1) 100%);
 }
-@media only screen and (max-width: 375px) and (orientation: portrait)
+@media only screen and (max-width: 480px) and (orientation: portrait)
 {
     .container
     {
@@ -188,7 +188,7 @@ form .button input:hover
     form .category {
         display: flex;
         width: 100%;
-        margin: 14px 0;
+        margin: px 0;
         justify-content: space-between;
         font-size: x-small;
     }
@@ -215,6 +215,7 @@ form .button input:hover
         z-index: 10;
         left: 0!important;
         border: none;
+        bottom: 14rem!important;
     }
     form .button {
         height: 35px;
